@@ -37,22 +37,47 @@ export default function DashboardPage() {
       .finally(() => setLoading(false));
   }, [token]);
 
-  if (!data) return <div className="p-8">Loading...</div>;
+  if (!data) return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+        <p className="text-gray-600 text-lg">Loading dashboard...</p>
+      </div>
+    </div>
+  );
 
   return (
     <ProtectedRoute allowedRoles={["admin"]}>
-      <main className="p-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">Dashboard</h1>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
+        <main className="p-8 max-w-7xl mx-auto">
+          {/* Header Section */}
+          <div className="mb-8">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
+            <p className="text-gray-600 text-lg">Overview of all todos and user performance</p>
+          </div>
 
-        <TodoStats
-          total={data.total}
-          completed={data.completed}
-          pending={data.pending}
-          loading={loading}
-        />
+          {/* Stats Section */}
+          <div className="mb8">
+            <TodoStats
+              total={data.total}
+              completed={data.completed}
+              pending={data.pending}
+              loading={loading}
+            />
+          </div>
 
-        <DashboardUserTable data={data.perUser} loading={loading} />
-      </main>
+          {/* User Performance Table */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">User Performance</h2>
+              <p className="text-gray-600">Track individual user todo completion statistics</p>
+            </div>
+            <div className="p-6">
+              <DashboardUserTable data={data.perUser} loading={loading} />
+            </div>
+          </div>
+        </main>
+      </div>
     </ProtectedRoute>
   );
 }

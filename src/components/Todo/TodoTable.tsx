@@ -15,7 +15,7 @@ export default function TodoTable({
 }: TodoTableProps) {
   const columns = [
     {
-      title: "#",
+      title: "No",
       key: "index",
       render: (_: unknown, __: Todo, index: number) => index + 1,
       width: 50,
